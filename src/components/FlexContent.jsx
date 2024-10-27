@@ -1,8 +1,10 @@
 import React from 'react'
 
+
 const FlexContent = ({ ifExists, endpoint: { title, heading, text, img, btn, url } }) => {
   return (
    <>
+  
       <div className={`flex items-center justify-between lg:flex-col lg:justify-center nike-container ${ifExists ? 'flex-row-reverse' : 'flex-row'}`}>
         <div className='max-w-lg lg:max-w-none w-full md:text-center grid items-center lg:justify-items-center'>
           <h1 className='text-4xl sm:text-3xl font-bold text-gradient'>{heading}</h1>

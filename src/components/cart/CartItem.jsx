@@ -69,26 +69,6 @@ const CartItem = ({ item: { id, title, text, img, color, shadow, price, cartQuan
 
  /*  const updateCartOnServer = async (updatedItem) => {
     try {
-      const response = await fetch("/api/cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(updatedItem)
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to update cart on server");
-      }
-
-      const result = await response.json();
-      console.log("Cart updated on server:", result);
-    } catch (error) {
-      console.error("Error updating cart on server:", error);
-    }
-  }; */
-  const updateCartOnServer = async (updatedItem) => {
-    try {
       const response = await fetch("http://localhost:5000/api/cart", {
         method: "POST",
         headers: {
@@ -106,24 +86,48 @@ const CartItem = ({ item: { id, title, text, img, color, shadow, price, cartQuan
     } catch (error) {
       console.error("Error updating cart on server:", error);
     }
-  };
+  }; */
+  const updateCartOnServer = async (updatedItem) => {
+    const userId = parseInt(localStorage.getItem('userId'), 10); // Get the user ID from localStorage
+    const cartItems = [{ proizvod_id: updatedItem.id, kolicina: updatedItem.cartQuantity }]; // Format for database
+
+    try {
+        const response = await fetch("http://localhost:5000/api/cart", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ userId, cartItems }) // Include userId and cartItems
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to update cart on server");
+        }
+
+        const result = await response.json();
+        console.log("Cart updated on server:", result);
+    } catch (error) {
+        console.error("Error updating cart on server:", error);
+    }
+};
+
   
 
   const onRemoveItem = () => {
-    const updatedItem = { id, title, text, img, color, shadow, price, cartQuantity: 0 };
+    const updatedItem = { id, title, text, img, price, cartQuantity: 0 };
     dispatch(setRemoveItemFromCart(updatedItem));
     updateCartOnServer(updatedItem);  // Send updated cart to the server
   };
 
   const onIncreaseItemQTY = () => {
-    const updatedItem = { id, title, text, img, color, shadow, price, cartQuantity: cartQuantity + 1 };
+    const updatedItem = { id, title, text, img, price, cartQuantity: cartQuantity + 1 };
     dispatch(setIncreaseItemQTY(updatedItem));
     updateCartOnServer(updatedItem);  // Send updated cart to the server
   };
 
   const onDecreaseItemQTY = () => {
     if (cartQuantity > 1) {
-      const updatedItem = { id, title, text, img, color, shadow, price, cartQuantity: cartQuantity - 1 };
+      const updatedItem = { id, title, text, img, price, cartQuantity: cartQuantity - 1 };
       dispatch(setDecreaseItemQTY(updatedItem));
       updateCartOnServer(updatedItem);  // Send updated cart to the server
     }

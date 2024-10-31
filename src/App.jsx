@@ -35,42 +35,47 @@ import Ole from './components/Ole.jsx';
 import LoginPage from './components/Login.jsx';
 import Dashboard from './components/Dashboard.jsx';
 import Kupovina from './components/Kupovina.jsx';
+import CheckoutPage from './components/CheckoutPage .jsx';
+
 
 
 const App = () => {
-/*   const korisnikId = 1; // Pretpostavimo da je korisnik sa ID-jem 1 prijavljen
-  const korpa = [
-      { id: 101, naziv: 'Proizvod 1', kolicina: 2 },
-      { id: 102, naziv: 'Proizvod 2', kolicina: 1 },
-      // Dodaj još proizvoda po potrebi
-  ]; */
+ /*  const paypalClientId = process.env.VITE_PAYPAL_CLIENT_ID; */
+
 
   return (
+    <>
+  
 
     <Router>
       <Navbar />
       <Cart />
       <Routes>
         {/* Ruta za Ole komponentu */}
+        
+        <Route path="/" element={<Hero heroapi={heroapi} />} />
         <Route path="/ole" element={<Ole />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/kupovina" element={<Kupovina />} />
+        <Route path="/pay" element={<CheckoutPage />} />
         
         {/* Ostale rute za glavnu stranicu */}
+      
         <Route
-          path="/"
+          path="/dr"
           element={
-            <main className='flex flex-col gap-16 relative'>
-              <Hero heroapi={heroapi} />
+            <main className='flex flex-col gap-16 relative pt-24 '>
+             {/*  <Hero heroapi={heroapi} /> */}
               <Sales endpoint={popularsales} ifExists />
               <FlexContent endpoint={highlight} ifExists />
               <Sales endpoint={toprateslaes} />
               <FlexContent endpoint={sneaker} />
               <Stories story={story} />
               <Footer footerAPI={footerAPI} />
+           
             </main>
-            
+              
           }
           
         />
@@ -78,7 +83,7 @@ const App = () => {
       </Routes>
      {/*  <Footer footerAPI={footerAPI} /> */}
     </Router>
-
+</>
   );
 };
 

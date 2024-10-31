@@ -731,7 +731,7 @@ const LoginPage = () => {
                 setSuccess('Login successful!');
                 console.log('logovali ste se uspjesno')
                 setError('');
-                navigate('/');
+                navigate('/dr');
             } else {
                 setError(data.error || 'Something went wrong');
             }

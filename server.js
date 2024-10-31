@@ -7,7 +7,11 @@ import bcrypt from 'bcrypt';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
+import Stripe from 'stripe';/* 
+const Stripe = require('stripe'); */
 
+
+const stripe = Stripe('YOUR_STRIPE_SECRET_KEY'); // Replace with your actual secret key
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -120,6 +124,26 @@ app.post("/api/cart", (req, res) => {
       console.error("Error saving cart:", error);
       res.status(500).json({ error: "Failed to save cart" });
     });
+});
+
+// Endpoint to create a payment intent
+app.post('/create-payment-intent', async (req, res) => {
+    const { amount } = req.body; // amount in cents
+
+    try {
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount,
+            currency: 'usd', // Adjust based on your currency
+            automatic_payment_methods: { enabled: true },
+        });
+
+        res.send({
+            clientSecret: paymentIntent.client_secret,
+        });
+    } catch (error) {
+        console.error('Error creating payment intent:', error);
+        res.status(500).json({ error: 'Payment failed' });
+    }
 });
 
 // Start the Server

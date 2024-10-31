@@ -1,6 +1,7 @@
 
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -11,6 +12,7 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
 
 
   const handleSubmit = async (e) => {
@@ -35,6 +37,7 @@ const SignUp = () => {
         setLastName('');
         setEmail('');
         setPassword('');
+        navigate('/login');
       } else {
         console.log('Error data:', data); // Log detailed error data
         setError(data.error || 'Something went wrong');

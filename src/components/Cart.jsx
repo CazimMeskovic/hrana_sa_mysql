@@ -566,7 +566,7 @@ const Cart = () => {
     if (korisnikId && purchaseItems.length > 0) {
       try {
       /*   const response = await fetch("http://localhost:5000/api/cart", { */
-        const response = await fetch("https://server-hrana-2.onrender.com/api/cart", {
+        const response = await fetch("https://server-hrana3.onrender.com/api/cart", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"

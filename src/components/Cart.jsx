@@ -583,7 +583,7 @@ const Cart = () => {
         const result = await response.json();
         console.log("Cart saved to database:", result);
         onClearCartItems();
-        navigate("/details");
+        navigate("/pay");
       } catch (error) {
         console.error("Error saving cart:", error);
       }

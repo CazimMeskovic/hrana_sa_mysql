@@ -67,26 +67,6 @@ import { setDecreaseItemQTY, setIncreaseItemQTY, setRemoveItemFromCart } from ".
 const CartItem = ({ item: { id, title, text, img, color, shadow, price, cartQuantity } }) => {
   const dispatch = useDispatch();
 
- /*  const updateCartOnServer = async (updatedItem) => {
-    try {
-      const response = await fetch("http://localhost:5000/api/cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(updatedItem)
-      });
-  
-      if (!response.ok) {
-        throw new Error("Failed to update cart on server");
-      }
-  
-      const result = await response.json();
-      console.log("Cart updated on server:", result);
-    } catch (error) {
-      console.error("Error updating cart on server:", error);
-    }
-  }; */
   const updateCartOnServer = async (updatedItem) => {
     const userId = parseInt(localStorage.getItem('userId'), 10); // Get the user ID from localStorage
     const cartItems = [{ proizvod_id: updatedItem.id, kolicina: updatedItem.cartQuantity }]; // Format for database

@@ -19,8 +19,7 @@ const SignUp = () => {
     e.preventDefault();
   
     try {
-     /*  const res = await fetch("http://localhost:5000/api/sign_up", { */
-      const res = await fetch("https://server-hrana.vercel.app/api/sign_up", {
+       const res = await fetch("http://localhost:5000/api/sign_up", { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

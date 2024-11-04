@@ -98,6 +98,7 @@ import Dashboard from './components/Dashboard.jsx';
 import Kupovina from './components/Kupovina.jsx';
 import CheckoutPage from './components/CheckoutPage .jsx';
 import ProtectedRoute from './components/ProtectedRoute';
+import { Suspense } from 'react';
 
 const App = () => {
   return (

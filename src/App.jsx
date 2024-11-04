@@ -98,42 +98,44 @@ import Dashboard from './components/Dashboard.jsx';
 import Kupovina from './components/Kupovina.jsx';
 import CheckoutPage from './components/CheckoutPage .jsx';
 import ProtectedRoute from './components/ProtectedRoute';
-import { Suspense } from 'react';
+import { AmountProvider } from './components/AmountContext.jsx';
 
 const App = () => {
   return (
     <>
-      <Router>
-        <Navbar />
-        <Cart />
-        <Routes>
-          <Route path="/" element={<Hero heroapi={heroapi} />} />
-          <Route path="/ole" element={<Ole />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/kupovina" element={<Kupovina />} />
-          <Route path="/pay" element={<CheckoutPage />} />
+      <AmountProvider>
+        <Router>
+          <Navbar />
+          <Cart />
+          <Routes>
+            <Route path="/" element={<Hero heroapi={heroapi} />} />
+            <Route path="/ole" element={<Ole />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/kupovina" element={<Kupovina />} />
+            <Route path="/pay" element={<CheckoutPage />} />
 
-          {/* Zaštićena ruta za /dr */}
-          <Route
-            path="/dr"
-            element={
-              <ProtectedRoute
-                element={
-                  <main className="flex flex-col gap-16 relative pt-24">
-                    <Sales endpoint={popularsales} ifExists />
-                    <FlexContent endpoint={highlight} ifExists />
-                    <Sales endpoint={toprateslaes} />
-                    <FlexContent endpoint={sneaker} />
-                    <Stories story={story} />
-                    <Footer footerAPI={footerAPI} />
-                  </main>
-                }
-              />
-            }
-          />
-        </Routes>
-      </Router>
+            {/* Zaštićena ruta za /dr */}
+            <Route
+              path="/dr"
+              element={
+                <ProtectedRoute
+                  element={
+                    <main className="flex flex-col gap-16 relative pt-24">
+                      <Sales endpoint={popularsales} ifExists />
+                      <FlexContent endpoint={highlight} ifExists />
+                      <Sales endpoint={toprateslaes} />
+                      <FlexContent endpoint={sneaker} />
+                      <Stories story={story} />
+                      <Footer footerAPI={footerAPI} />
+                    </main>
+                  }
+                />
+              }
+            />
+          </Routes>
+        </Router>
+      </AmountProvider>
     </>
   );
 };

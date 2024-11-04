@@ -154,7 +154,7 @@ const CheckoutPage = () => {
 
 export default CheckoutPage;
  */
-
+/* 
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import PaymentComponent from './PaymentComponent';
@@ -199,6 +199,53 @@ const CheckoutPage = () => {
            
         </div>
         <PaymentComponent amount={amountToPay} />
+        </>
+    );
+};
+
+export default CheckoutPage;
+ */
+
+import React, { useContext, useEffect } from 'react';
+import { AmountContext } from './AmountContext';
+import PaymentComponent from './PaymentComponent';
+
+const CheckoutPage = () => {
+    const { amount } = useContext(AmountContext); // Get amount from context
+
+    useEffect(() => {
+        const paypalClientId = import.meta.env.VITE_PAYPAL_CLIENT_ID;
+        console.log("PayPal Client ID:", paypalClientId);
+
+        const loadPaypalScript = () => {
+            const script = document.createElement('script');
+            script.src = `https://www.paypal.com/sdk/js?client-id=${paypalClientId}`;
+            script.async = true;
+            script.onload = () => {
+                console.log("PayPal SDK loaded successfully.");
+            };
+            script.onerror = () => {
+                console.error("Failed to load PayPal SDK.");
+            };
+            document.body.appendChild(script);
+        };
+
+        loadPaypalScript();
+    }, []);
+
+    const handleRefresh = () => {
+        window.location.reload();
+    };
+
+    return (
+        <>
+            <div className='flex justify-center items-center'>
+                <h1>Checkout Page</h1>
+                <button onClick={handleRefresh} className="button-theme bg-theme-cart text-white">
+                    Paj
+                </button>
+            </div>
+            <PaymentComponent amount={amount} />
         </>
     );
 };

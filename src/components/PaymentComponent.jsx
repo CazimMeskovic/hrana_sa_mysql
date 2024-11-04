@@ -148,7 +148,7 @@ const PaymentComponent = ({ amount }) => {
 
 export default PaymentComponent;
  */
-
+/* 
 import React, { useEffect, useRef, useState } from 'react';
 
 const PaymentComponent = ({ amount }) => {
@@ -172,6 +172,74 @@ const PaymentComponent = ({ amount }) => {
 
     useEffect(() => {
         if (isPayPalReady) {
+            window.paypal.Buttons({
+                createOrder: (data, actions) => {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: amount.toString(),
+                            },
+                        }],
+                    });
+                },
+                onApprove: async (data, actions) => {
+                    const order = await actions.order.capture();
+                    console.log('Order', order);
+                    alert('Payment successful!');
+                },
+                onError: (err) => {
+                    console.error('PayPal Checkout error:', err);
+                    alert('There was an issue processing your payment.');
+                }
+            }).render(paypalRef.current);
+        }
+    }, [isPayPalReady, amount]);
+
+    return (
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+            <h2 className="text-2xl font-semibold mb-4">Complete Payment</h2>
+            <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
+                {isPayPalReady ? (
+                    <div ref={paypalRef} />
+                ) : (
+                    <p className="text-center">Loading payment options...</p>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default PaymentComponent;
+ */
+
+import React, { useEffect, useRef, useState } from 'react';
+
+const PaymentComponent = ({ amount }) => {
+    const paypalRef = useRef();
+    const [isPayPalReady, setIsPayPalReady] = useState(false);
+
+    useEffect(() => {
+        const loadPayPalScript = () => {
+            if (!window.paypal) {
+                const script = document.createElement("script");
+                script.src = `https://www.paypal.com/sdk/js?client-id=${import.meta.env.VITE_PAYPAL_CLIENT_ID}`;
+                script.async = true;
+                script.onload = () => setIsPayPalReady(true);
+                script.onerror = () => {
+                    console.error("PayPal SDK could not be loaded.");
+                    alert("PayPal SDK failed to load.");
+                };
+                document.body.appendChild(script);
+            } else {
+                setIsPayPalReady(true);
+            }
+        };
+
+        loadPayPalScript();
+    }, []);
+
+    useEffect(() => {
+        if (isPayPalReady && paypalRef.current) {
             window.paypal.Buttons({
                 createOrder: (data, actions) => {
                     return actions.order.create({

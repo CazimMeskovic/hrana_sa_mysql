@@ -239,12 +239,12 @@ const CheckoutPage = () => {
 
     return (
         <>
-            <div className='flex justify-center items-center'>
+            {/*   <div className='flex justify-center items-center'>
                 <h1>Checkout Page</h1>
                 <button onClick={handleRefresh} className="button-theme bg-theme-cart text-white">
                     Paj
                 </button>
-            </div>
+            </div> */}
             <PaymentComponent amount={amount} />
         </>
     );

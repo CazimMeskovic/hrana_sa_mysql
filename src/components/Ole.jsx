@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Suspense } from 'react';
 import Loader from './Loader';
+import Pejpal from './pejpal';
 
 
 
@@ -53,6 +54,9 @@ const SignUp = () => {
 
 
   return (
+    <>
+   
+    
     <Suspense fallback={<Loader />}>
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg">
@@ -116,6 +120,7 @@ const SignUp = () => {
         </div>
       </div>
     </Suspense>
+    </>
   );
 };
 

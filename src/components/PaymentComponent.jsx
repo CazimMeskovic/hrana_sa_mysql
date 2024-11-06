@@ -222,7 +222,10 @@ const PaymentComponent = ({ amount }) => {
         const loadPayPalScript = () => {
             if (!window.paypal) {
                 const script = document.createElement("script");
-                script.src = `https://www.paypal.com/sdk/js?client-id=${import.meta.env.VITE_PAYPAL_CLIENT_ID}`;
+             
+              /*   script.src = `https://www.paypal.com/sdk/js?client-id=${import.meta.env.VITE_PAYPAL_CLIENT_ID}`; */
+                script.src = `https://www.paypal.com/sdk/js?client-id=AXd3wLAR-Jg3wh9RDsKnqp7XdCa2vwFZwfeQggp2SeD29TSX9cqGIRLehwSeVtGxVvfUcQnrLuUuphB6`;
+
                 script.async = true;
                 script.onload = () => setIsPayPalReady(true);
                 script.onerror = () => {
@@ -239,28 +242,32 @@ const PaymentComponent = ({ amount }) => {
     }, []);
 
     useEffect(() => {
-        if (isPayPalReady && paypalRef.current) {
-            window.paypal.Buttons({
-                createOrder: (data, actions) => {
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: {
-                                value: amount.toString(),
-                            },
-                        }],
-                    });
-                },
-                onApprove: async (data, actions) => {
-                    const order = await actions.order.capture();
-                    console.log('Order', order);
-                    alert('Payment successful!');
-                },
-                onError: (err) => {
-                    console.error('PayPal Checkout error:', err);
-                    alert('There was an issue processing your payment.');
-                }
-            }).render(paypalRef.current);
-        }
+    
+            if (isPayPalReady && window.paypal) {
+                window.paypal.Buttons({
+                    createOrder: (data, actions) => {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    value: amount, // Iznos koji šaljete za plaćanje
+                                }
+                            }]
+                        });
+                    },
+                    onApprove: (data, actions) => {
+                        return actions.order.capture().then((details) => {
+                            alert('Payment successful!');
+                            console.log('Transaction completed by ' + details.payer.name.given_name);
+                        });
+                    },
+                    onError: (err) => {
+                        console.error('PayPal Checkout error:', err);
+                        alert('Something went wrong with the payment.');
+                    }
+                }).render(paypalRef.current);
+            }
+            
+        
     }, [isPayPalReady, amount]);
 
     return (

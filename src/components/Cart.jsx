@@ -876,7 +876,7 @@ const Cart = () => {
                 <button type="button" onClick={onClearCartItems} className="button-theme bg-theme-cart text-white">Clean cart</button>
 
                 <button type="button" onClick={handleButtonClick} className="button-theme bg-theme-cart text-white">
-                  Send to baza
+                Buy & Pay
                 </button>
               </div>
             </div>
